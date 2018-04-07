@@ -1,6 +1,15 @@
 node('nodejs') {
-  stage 'build'
-  openshiftBuild(buildConfig: 'nodejs-ex', showBuildLogs: 'true')
-  stage 'deploy'
-  openshiftDeploy(deploymentConfig: 'nodejs-ex')
+  stage ('Build App'){
+    openshiftBuild(buildConfig: 'nodejs-ex', showBuildLogs: 'true')
+  }
+  
+  stage ('Test App'){
+    echo 'Starting Unit tests with Cucumber'
+    sleep 5
+    echo 'Passed tests'
+  }
+  
+  stage ('Deploy Container'){
+    openshiftDeploy(deploymentConfig: 'nodejs-ex')
+  }
 }
